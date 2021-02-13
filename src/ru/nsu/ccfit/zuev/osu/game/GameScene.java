@@ -931,13 +931,15 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
         comboText.changeText(new StringBuilder("0****"));
         scoreText = new GameScoreText(Config.getRES_WIDTH()
                 - scoreDigitTex.getWidth() * 7.25f, 0, "0000000000", 0.9f);
+        if(!Config.isHideUI()){
         comboText.attachToScene(fgScene);
         accText.attachToScene(fgScene);
         scoreText.attachToScene(fgScene);
+        }
         if (Config.isComplexAnimations()) {
             scoreShadow = new GameScoreTextShadow(0, Config.getRES_HEIGHT()
                     - Utils.toRes(90), "0000x", 1.5f);
-            scoreShadow.attachToScene(bgScene);
+            if(!Config.isHideUI()) scoreShadow.attachToScene(bgScene);
             passiveObjects.add(scoreShadow);
         }
         breakAnimator = new BreakAnimator(this, fgScene, stat, beatmapData
@@ -1241,7 +1243,7 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
             scoreBoard = new DuringGameScoreBoard(fgScene, stat, playname);
             addPassiveObject(scoreBoard);
         }
-
+        if(Config.isHideUI()) scorebar.setVisible(false);
         if(GameHelper.isFlashLight()){
             flashlightSprite = new FlashLightSprite();
             flashlightSprite.setShowing(false);
@@ -1446,7 +1448,7 @@ public class GameScene implements IUpdateHandler, GameObjectListener,
         }
         if (breakAnimator.isOver()) {
             gameStarted = true;
-            scorebar.setVisible(true);
+            if(!Config.isHideUI()) scorebar.setVisible(true);
             if(GameHelper.isFlashLight()){
                 mainCursorId = -1;
             }
